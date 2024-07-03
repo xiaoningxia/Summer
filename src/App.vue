@@ -25,25 +25,22 @@ export default {
       mapLngLat:null,
       events: {
         click(e) {
-         localStorage.setItem('mapList', JSON.stringify(e.lnglat));
-         self.mapLngLat = JSON.parse(localStorage.getItem('mapList'));
+         self.mapLngLat = e.lnglat
          self.getList()
         },
       },
     };
-  },
-  mounted() {
-    
   },
   methods:{
     getList() {
       let lng = this.mapLngLat.lng.toFixed(2)
       let lat = this.mapLngLat.lat.toFixed(2)
       getWeatherList(lng,lat).then(res => {
-        // console.log(res.data.daily)
         if(res.data.code == '200' && res.data.daily){
           this.weatherList = res.data.daily
           this.dialogVisible  = true
+        }else{
+          this.dialogVisible  = false
         }
       })
     },
